@@ -1,0 +1,36 @@
+# training mode
+TRAINING_MODE_PRE_TRAIN = 'pre_train'
+TRAINING_MODE_FINE_TUNE = 'fine_tune'
+
+# pre-training task names
+TASK_RTD = 'rtd'
+TASK_AUTOCOMPLETION = 'atc'
+TASK_CODE_AST_PREDICTION = 'cap'
+TASK_METHOD_NAME_PREDICTION = 'mng'
+TASK_MASS = 'mass'
+TASK_MLM = 'mlm'
+TASK_METHOD_DOCS_PREDICTION = 'mdp'
+TASK_IDENTIFIER_TAGGING = 'it'
+TASK_MIP = 'mip'
+
+PRE_TRAIN_TASKS = [
+	TASK_RTD,
+	TASK_AUTOCOMPLETION,
+    TASK_CODE_AST_PREDICTION,
+    TASK_METHOD_NAME_PREDICTION,
+    TASK_MASS,
+    TASK_MLM,
+    TASK_METHOD_DOCS_PREDICTION,
+    TASK_IDENTIFIER_TAGGING,
+    TASK_MIP
+]
+
+# downstream task names
+TASK_BUG_FIX = 'bug_fix'
+
+ALL_DOWNSTREAM_TASKS = [
+    TASK_BUG_FIX
+]
+
+# programming language
+LANG_JAVA = 'java'
