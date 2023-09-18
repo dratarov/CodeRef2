@@ -26,10 +26,14 @@ PRE_TRAIN_TASKS = [
 ]
 
 # downstream task names
-TASK_BUG_FIX = 'bug_fix'
+TASK_BUG_FIX = 'bug_fix' # code&comment2code
+CODE_2_CODE = 'code2code'
+CODE_2_COMMENT = 'code2comment'
 
 ALL_DOWNSTREAM_TASKS = [
-    TASK_BUG_FIX
+    TASK_BUG_FIX,
+    CODE_2_CODE,
+    CODE_2_COMMENT
 ]
 
 # programming language

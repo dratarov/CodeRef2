@@ -261,30 +261,23 @@ def collate_fn(batch, args, dataset, code_vocab, nl_vocab, ast_vocab):
         )
 
     # bug fix
-    elif dataset.task == enums.TASK_BUG_FIX:
+    elif dataset.task in [enums.TASK_BUG_FIX, enums.CODE_2_CODE, enums.CODE_2_COD]:
         inputs, outputs = map(list, zip(*batch))
-        max_code_len = 65 if args.bug_fix_scale == 'small' else 105
+        max_code_len = 65 if args.bug_fix_scale == 'small' else 512
 
         model_inputs['input_ids'], model_inputs['attention_mask'] = get_batch_inputs_bug_fix(
             batch=inputs,
             code_vocab=code_vocab,
             nl_vocab=nl_vocab,
-            max_code_len=128,
+            max_code_len=max_code_len,
             max_comment_len=512
         )
-
-        # model_inputs['decoder_input_ids'], model_inputs['decoder_attention_mask'] = get_batch_inputs(
-        #     batch=outputs,
-        #     vocab=code_vocab,
-        #     processor=Vocab.sos_processor,
-        #     max_len=args.max_code_len
-        # )
 
         model_inputs['labels'], _ = get_batch_inputs(
             batch=outputs,
             vocab=code_vocab,
             processor=Vocab.eos_processor,
-            max_len=128,
+            max_len=max_code_len,
             is_label=True
         )
 

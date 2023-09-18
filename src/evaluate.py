@@ -25,7 +25,7 @@ logger = logging.getLogger(__name__)
 
 
 class T5Model(T5BaseModel):
-    def __init__(self, config: BaseConfig, args, mode='pre_training', bug_fix_size='small', **kwargs):
+    def __init__(self, config: BaseConfig, args, mode='pre_training', bug_fix_size='small', pre_training_task=enums.TASK_BUG_FIX, **kwargs):
         model = T5ForConditionalGeneration.from_pretrained(os.path.join(args.dataset_root, f"{config.base_t5_model}_best_small_bug_fix"))
         # init tokenizers
         code_vocab = load_vocab(vocab_root=args.vocab_root, name=args.code_vocab_name)
@@ -36,9 +36,9 @@ class T5Model(T5BaseModel):
             dataset = init_dataset(args=args, mode=enums.TRAINING_MODE_PRE_TRAIN, load_if_saved=True)
         elif mode == 'fine_tunning':
             dataset = [
-                init_dataset(args=args, mode=enums.TRAINING_MODE_FINE_TUNE, task=enums.TASK_BUG_FIX, language=bug_fix_size, split='train'),
-                init_dataset(args=args, mode=enums.TRAINING_MODE_FINE_TUNE, task=enums.TASK_BUG_FIX, language=bug_fix_size, split='valid'),
-                init_dataset(args=args, mode=enums.TRAINING_MODE_FINE_TUNE, task=enums.TASK_BUG_FIX, language=bug_fix_size, split='test')
+                init_dataset(args=args, mode=enums.TRAINING_MODE_FINE_TUNE, task=pre_training_task, language=bug_fix_size, split='train'),
+                init_dataset(args=args, mode=enums.TRAINING_MODE_FINE_TUNE, task=pre_training_task, language=bug_fix_size, split='valid'),
+                init_dataset(args=args, mode=enums.TRAINING_MODE_FINE_TUNE, task=pre_training_task, language=bug_fix_size, split='test')
             ]
 
         super().__init__(config, model, dataset, mode, args, code_vocab, nl_vocab, ast_vocab)

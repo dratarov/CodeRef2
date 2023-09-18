@@ -55,8 +55,8 @@ class CodeDataset(Dataset):
             assert split
             logger.info(f'  Loading {split} set')
             self.dataset_dir = os.path.join(self.dataset_dir, task)
-            # bug fix
-            if task == enums.TASK_BUG_FIX:
+            # bug fix code+comment-to-code
+            if task in [enums.TASK_BUG_FIX, enums.CODE_2_CODE, enums.CODE_2_COMMENT]:
                 assert split in ['train', 'valid', 'test']
                 # language here stands for dataset scale
                 assert language in ['small', 'medium']
@@ -158,6 +158,18 @@ class CodeDataset(Dataset):
             task_prefix = 'TASK_BUG_FIX: '
 
             return task_prefix + self.codes[index] + Vocab.SEP_TOKEN + self.comments[index], self.targets[index]
+
+        # bug fix
+        elif self.task == enums.CODE_2_CODE:
+            task_prefix = 'CODE_2_CODE: '
+
+            return task_prefix + self.codes[index], self.targets[index]
+
+        # bug fix
+        elif self.task == enums.CODE_2_COMMENT:
+            task_prefix = 'CODE_2_COMMENT: '
+
+            return task_prefix + self.codes[index], self.comments[index]
 
     def __len__(self):
         return self.size
